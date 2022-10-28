@@ -1,5 +1,7 @@
 from operator import add, mul
 
+#from cv2 import merge
+
 square = lambda x: x * x
 
 identity = lambda x: x
@@ -86,7 +88,7 @@ def summation_using_accumulate(n, term):
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(summation_using_accumulate)).body[0].body]
     ['Expr', 'Return']
     """
-    "*** YOUR CODE HERE ***"
+    return accumulate(add, 0, n, term)
 
 
 def product_using_accumulate(n, term):
@@ -103,8 +105,7 @@ def product_using_accumulate(n, term):
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(product_using_accumulate)).body[0].body]
     ['Expr', 'Return']
     """
-    "*** YOUR CODE HERE ***"
-
+    return accumulate(mul, 1, n, term)
 
 
 def filtered_accumulate(merger, start, cond, n, term):
@@ -132,6 +133,10 @@ def filtered_accumulate(merger, start, cond, n, term):
     """
     def merge_if(x, y):
         "*** YOUR CODE HERE ***"
+        if cond(y) == True:
+            return merger(x,y)
+        else:
+            return x
     return accumulate(merge_if, start, n, term)
 
 
@@ -166,3 +171,16 @@ def funception(func_a, start):
     >>> func_b5(4)    # Returns None since start < 0
     """
     "*** YOUR CODE HERE ***"
+    def func_b(num):
+        if start<0:
+            return None
+        elif start>num:
+            return func_a(start)
+        else:
+            r = 1
+            i = start
+            while i<num:
+                r *= func_a(i)
+                i += 1
+            return r
+    return func_b
